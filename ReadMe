@@ -1,0 +1,138 @@
+================================================================================
+Software: 
+AzTICA: Independent Component Analysis for AzTEC-LMT data.
+
+Public repository: https://github.com/LMTdevs/AzTICA
+
+Publication: Multiple component decomposition from millimeter single-channel data 
+Authors: Rodriguez-Montoya I., Sanchez-Arguelles D., Aretxaga I., et al.
+doi:https://doi.org/10.3847/1538-4365/aaa83c
+================================================================================
+
+
+Description of contents
+--------------------------------------------------------------------------------
+AzTICA is an application of Independent Component Analysis (ICA)
+along with calibration techniques developed for AzTEC-like maps.
+It is under continuous development by Ivan Rodriguez & David Sanchez.
+For questions and contributions please contact the authors:
+ivrguez@gmail.com, armazd@gmail.com.
+
+
+The 2018 release also contains a set of redundant maps and the reference M0 map used in
+the article. The astronomical field is the Great Observatories Origins Deep Survey-South
+(GOODS-S, Scott et al 2010). The hierarchical levels of redundancy are generated using PCA
+in time-domain. For further details the user is referred to the paper.
+
+AzTICA is actually an application of FastICA to work with (masked) maps and
+the inclusion of some calibration techniques. For more details about FastICA,
+we refer to the original Hyvärinen & Oja papers:
+Neural Computation 9 1483 (1997).
+NN 13 411 (2000).
+
+
+The aim of these data and scripts
+--------------------------------------------------------------------------------
+As this data set is an intermediate stage amid the raw-data and the final 
+product, it is not yet ready for direct inference of astrophysical information. 
+However, it may be the subject of further analyses and processing.
+The enclosed scripts are the most basic piece of code necessary to reproduce the
+main results published in the article.
+
+
+Data format
+--------------------------------------------------------------------------------
+Each map is stored in an NetCDF format, which is suited for self-describing 
+array-oriented scientific data. NetCDF libraries are developed by Unidata, more 
+details of this format can be found at 
+https://www.unidata.ucar.edu/software/netcdf/. 
+
+The AzTEC nc-files contain much more information, e.g. noise maps, astronomical 
+coordinates, etc. The user can modify the function Azmap in order to get full
+access to all the variables.
+
+
+System requirements
+--------------------------------------------------------------------------------
+The given python scripts require the following python libraries:
+
+	*numpy (>=1.10)
+	*scipy (>=0.17)
+	*matplotlib (>=1.5.1)
+	*scikit-learn (>=0.16)
+
+This packages can be installed in using pip:
+
+	pip install numpy scipy matplotlib scikits.learn
+
+Handling the nc-files requires the open source NetCDF software. The scipy library
+provides a simple interface via the scipy.io.netcdf package. However, the reader 
+might want to increase the code performance by installing the unidata netCDF4-python
+library (see http://unidata.github.io/netcdf4-python/ for details on installation).
+
+
+Usage of data and scripts
+--------------------------------------------------------------------------------
+A minimal piece of python-code is provided inside example/playICA.py.
+This is intended to read and visualize a set of AzTEC redundant maps,
+perform an ICA decomposition of those maps, and a rapid calibration
+using the pixel-fitting method described in the paper.
+While playICA.py is the user-interface where the read/plot/analyze functions are executed,
+the actual libraries are stored in Aztica/aztica.py.
+
+Before running the playICA script, you must download the redundant maps stored in
+NETCDF format. You may find them here: 
+		https://doi.org/10.3847/0067-0049/235/1/12/data
+The directory called realD contains the ancillary GOODS-S data provided with Aztica
+and it should be placed inside the directory ~/Aztica-master/data/. Optionally,
+you may edit the datadir variable (line 16) to indicate the path to realD.
+You may also edit the sys.path variable (lines 2-4) to indicate the location of the
+Aztica folder in your system (in case you wanted to move it from the master folder).
+Finally, by looking at the header of aztica.py, make sure that you have installed 
+all the necessary python-libraries in your system.
+
+
+The easiest way to execute the playICA script in an interactive ipython terminal is:
+	%run playICA.py
+or alternatively simply execute line by line the script.
+
+
+The user may change plenty of things to play:
+	+ create and test new masks (especially masika) of different sizes
+	+ change the number of independent components n
+	+ try and test different initialization matrices (w_init)
+	+ measure negentropy on different area sizes (using the function J)
+	+ choose different sets of redundant maps to perform calibrations (rangeM_Si)
+	+ count bright sources inside the maps with different SNtol, beams_excluded, etc.
+
+
+
+Additional comments
+--------------------------------------------------------------------------------
+AzTICA is free for public use. If you use AzTICA in scholarly work, please cite:
+	ApJS 235 1 (2018)
+	https://doi.org/10.3847/1538-4365/aaa83c
+
+The full set of maps and codes used for the analysis that was published can be made
+available after request to the authors. The user is invited to write to any of:
+irodriguez@inaoep.mx
+domars@inaoep.mx
+itziar@inaoep.mx
+
+
+
+Copyright information
+--------------------------------------------------------------------------------
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
+================================================================================
